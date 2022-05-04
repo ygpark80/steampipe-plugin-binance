@@ -1,0 +1,6 @@
+connection "binance" {
+    plugin = "binance"
+
+    # api_key = "YOUR_API_KEY_HERE"
+    # api_secret = "YOUR_API_SECRET_HERE"
+}
