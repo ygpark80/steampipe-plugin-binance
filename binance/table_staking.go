@@ -52,7 +52,8 @@ func tableBinanceStaking(ctx context.Context) *plugin.Table {
 func listStaking(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	logger := plugin.Logger(ctx)
 
-	stakingRes := Locked()
+	clients, _ := connect(ctx, d)
+	stakingRes := clients.api.Locked()
 	for _, t := range stakingRes.Data {
 		for _, j := range t.Projects {
 			d.StreamListItem(ctx, j)

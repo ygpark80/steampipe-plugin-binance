@@ -7,7 +7,7 @@ import (
 )
 
 func TestApi(t *testing.T) {
-	earnLockedStaking := binance.Locked()
+	earnLockedStaking := binance.NewClient("", "").Locked()
 
 	if earnLockedStaking.Code != "000000" {
 		t.Fatal(`Hello("")`, "")

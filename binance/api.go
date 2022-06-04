@@ -8,7 +8,22 @@ import (
 	"net/http"
 )
 
-func Locked() earnLockedStakingResponse {
+type Client struct {
+	APIKey    string
+	SecretKey string
+}
+
+func NewClient(apiKey, secretKey string) *Client {
+	c := &Client{
+		APIKey:    apiKey,
+		SecretKey: secretKey,
+	}
+	return c
+}
+
+// public
+
+func (c *Client) Locked() earnLockedStakingResponse {
 	url := "https://www.binance.com/bapi/earn/v2/friendly/pos/union?pageSize=200&pageIndex=1&status=ALL"
 	res, err := http.Get(url)
 	if err != nil {
@@ -30,7 +45,7 @@ func Locked() earnLockedStakingResponse {
 	return stakingRes
 }
 
-func Defi() {
+func (c *Client) Defi() {
 	// url := "https://www.binance.com/bapi/earn/v2/friendly/defi-pos/groupByAssetAndPartnerNameList?pageSize=15&pageIndex=1&status=ALL"
 }
 
@@ -79,4 +94,9 @@ type earnLockedStakingResponse struct {
 	} `json:"data"`
 	Total   int  `json:"total"`
 	Success bool `json:"success"`
+}
+
+// private
+func (c *Client) BwapUnclaimedRewards() {
+
 }

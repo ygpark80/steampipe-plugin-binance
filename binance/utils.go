@@ -9,7 +9,12 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/plugin"
 )
 
-func connect(_ context.Context, d *plugin.QueryData) (*binance.Client, error) {
+type Clients struct {
+	binance *binance.Client
+	api     *Client
+}
+
+func connect(_ context.Context, d *plugin.QueryData) (*Clients, error) {
 	apiKey := os.Getenv("BINANCE_API_KEY")
 	apiSecret := os.Getenv("BINANCE_API_SECRET")
 
@@ -25,6 +30,8 @@ func connect(_ context.Context, d *plugin.QueryData) (*binance.Client, error) {
 		return nil, errors.New("'api_key' and 'api_secret' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 	}
 
-	api := binance.NewClient(apiKey, apiSecret)
-	return api, nil
+	binance := binance.NewClient(apiKey, apiSecret)
+	api := NewClient(apiKey, apiSecret)
+
+	return &Clients{binance: binance, api: api}, nil
 }

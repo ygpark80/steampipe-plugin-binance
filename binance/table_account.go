@@ -24,8 +24,8 @@ func tableBinanceAccount(ctx context.Context) *plugin.Table {
 }
 
 func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	client, _ := connect(ctx, d)
-	res, _ := client.NewGetAccountService().Do(ctx)
+	clients, _ := connect(ctx, d)
+	res, _ := clients.binance.NewGetAccountService().Do(ctx)
 
 	for _, t := range res.Balances {
 		d.StreamListItem(ctx, Balance{
