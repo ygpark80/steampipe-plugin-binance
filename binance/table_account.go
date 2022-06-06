@@ -21,7 +21,7 @@ func tableBinanceAccount(ctx context.Context) *plugin.Table {
 			{Name: "type", Type: proto.ColumnType_STRING},
 			{Name: "free", Type: proto.ColumnType_DOUBLE},
 			{Name: "locked", Type: proto.ColumnType_DOUBLE},
-			{Name: "symbol", Type: proto.ColumnType_STRING},
+			{Name: "symbols", Type: proto.ColumnType_STRING},
 			{Name: "price", Type: proto.ColumnType_DOUBLE},
 			{Name: "total", Type: proto.ColumnType_DOUBLE},
 		},
@@ -95,13 +95,13 @@ func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		asset := getAsset(t.Asset)
 
 		d.StreamListItem(ctx, Balance{
-			Asset:  getAsset(t.Asset),
-			Type:   getType(t.Asset),
-			Free:   t.Free,
-			Locked: t.Locked,
-			Symbol: symbols[asset],
-			Price:  getPrice(asset, symbols, prices),
-			Total:  multiply(t.Free, getPrice(asset, symbols, prices)),
+			Asset:   getAsset(t.Asset),
+			Type:    getType(t.Asset),
+			Free:    t.Free,
+			Locked:  t.Locked,
+			Symbols: symbols[asset],
+			Price:   getPrice(asset, symbols, prices),
+			Total:   multiply(t.Free, getPrice(asset, symbols, prices)),
 		})
 	}
 
@@ -112,13 +112,13 @@ func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 			if vvv > 0 {
 				asset := k
 				d.StreamListItem(ctx, Balance{
-					Asset:  k,
-					Type:   "Liquidity",
-					Free:   vv,
-					Locked: "0",
-					Symbol: symbols[asset],
-					Price:  getPrice(asset, symbols, prices),
-					Total:  multiply(vv, getPrice(asset, symbols, prices)),
+					Asset:   k,
+					Type:    "Liquidity",
+					Free:    vv,
+					Locked:  "0",
+					Symbols: symbols[asset],
+					Price:   getPrice(asset, symbols, prices),
+					Total:   multiply(vv, getPrice(asset, symbols, prices)),
 				})
 			}
 		}
@@ -128,13 +128,13 @@ func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		asset := k
 
 		d.StreamListItem(ctx, Balance{
-			Asset:  k,
-			Type:   "Unclaimed Rewards",
-			Free:   v,
-			Locked: "0",
-			Symbol: symbols[asset],
-			Price:  getPrice(asset, symbols, prices),
-			Total:  multiply(v, getPrice(asset, symbols, prices)),
+			Asset:   k,
+			Type:    "Unclaimed Rewards",
+			Free:    v,
+			Locked:  "0",
+			Symbols: symbols[asset],
+			Price:   getPrice(asset, symbols, prices),
+			Total:   multiply(v, getPrice(asset, symbols, prices)),
 		})
 	}
 
@@ -195,13 +195,13 @@ func multiply(free string, price string) float64 {
 }
 
 type Balance struct {
-	Asset  string
-	Type   string
-	Free   string
-	Locked string
-	Symbol string
-	Price  string
-	Total  float64
+	Asset   string
+	Type    string
+	Free    string
+	Locked  string
+	Symbols string
+	Price   string
+	Total   float64
 }
 
 func removeEmptyStrings(s []string) []string {
