@@ -51,7 +51,7 @@ func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 			}
 		}
 	}
-	for k, _ := range bswapUnclaimedRewardsResponse.TotalUnclaimedRewards {
+	for k := range bswapUnclaimedRewardsResponse.TotalUnclaimedRewards {
 		symbols[k] = ""
 	}
 	delete(symbols, "BUSD")
