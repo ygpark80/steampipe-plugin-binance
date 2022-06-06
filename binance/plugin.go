@@ -19,8 +19,9 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			TotalMaxConcurrency: 10,
 		},
 		TableMap: map[string]*plugin.Table{
-			"binance_account": tableBinanceAccount(ctx),
-			"binance_staking": tableBinanceStaking(ctx),
+			"binance_account":  tableBinanceAccount(ctx),
+			"binance_exchange": tableBinanceExchange(ctx),
+			"binance_staking":  tableBinanceStaking(ctx),
 		},
 	}
 	return p

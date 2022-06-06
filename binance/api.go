@@ -105,6 +105,30 @@ func (c *Client) Defi() {
 	// url := "https://www.binance.com/bapi/earn/v2/friendly/defi-pos/groupByAssetAndPartnerNameList?pageSize=15&pageIndex=1&status=ALL"
 }
 
+type TickerPriceResponse struct {
+	Symbol string `json:"symbol"`
+	Price  string `json:"price"`
+}
+
+func (c *Client) TickerPrice(symbols []string) []TickerPriceResponse {
+	endpoint := "/api/v3/ticker/price"
+
+	query := url.Values{}
+	_symbols, _ := json.Marshal(symbols)
+	query.Set("symbols", string(_symbols))
+	queryString := query.Encode()
+
+	url := fmt.Sprintf("%s%s?%s", BASE_URL, endpoint, queryString)
+	res, _ := http.Get(url)
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println("url=", url)
+
+	var response []TickerPriceResponse
+	json.Unmarshal(body, &response)
+	return response
+}
+
 // private
 
 type BswapUnclaimedRewardsRequest struct {
