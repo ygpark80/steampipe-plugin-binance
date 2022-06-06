@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"strconv"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
@@ -33,6 +34,32 @@ func listAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 			Type:   getType(t.Asset),
 			Free:   t.Free,
 			Locked: t.Locked,
+		})
+	}
+
+	// TODO: should group by asset
+	bswapLiquidity := clients.api.BswapLiquidity()
+	for _, v := range bswapLiquidity {
+		for k, vv := range v.Share.Asset {
+			vvv, _ := strconv.ParseFloat(vv, 32)
+			if vvv > 0 {
+				d.StreamListItem(ctx, Balance{
+					Asset:  k,
+					Type:   "Liquidity",
+					Free:   vv,
+					Locked: "0",
+				})
+			}
+		}
+	}
+
+	bswapUnclaimedRewardsResponse := clients.api.BswapUnclaimedRewards(BswapUnclaimedRewardsRequest{Type: 1})
+	for k, v := range bswapUnclaimedRewardsResponse.TotalUnclaimedRewards {
+		d.StreamListItem(ctx, Balance{
+			Asset:  k,
+			Type:   "Unclaimed Rewards",
+			Free:   v,
+			Locked: "0",
 		})
 	}
 
