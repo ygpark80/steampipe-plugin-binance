@@ -18,7 +18,7 @@ func TestApi(t *testing.T) {
 func TestBswapLiquidity(t *testing.T) {
 	config := GetConfig()
 
-	client := binance.NewClient(config.APIKey, config.SecretKey)
+	client := binance.NewClient(config.ApiKey, config.ApiSecret)
 	response := client.BswapLiquidity()
 
 	for k, v := range response {
@@ -29,7 +29,7 @@ func TestBswapLiquidity(t *testing.T) {
 func TestBswapUnclaimedRewards(t *testing.T) {
 	config := GetConfig()
 
-	client := binance.NewClient(config.APIKey, config.SecretKey)
+	client := binance.NewClient(config.ApiKey, config.ApiSecret)
 	response := client.BswapUnclaimedRewards(binance.BswapUnclaimedRewardsRequest{Type: 1})
 
 	for k, v := range response.TotalUnclaimedRewards {

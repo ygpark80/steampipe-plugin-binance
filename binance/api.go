@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -87,7 +87,7 @@ func (c *Client) Locked() earnLockedStakingResponse {
 		log.Fatal(err)
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Print(err.Error())
 		log.Fatal(err)
@@ -120,7 +120,7 @@ func (c *Client) TickerPrice(symbols []string) []TickerPriceResponse {
 
 	url := fmt.Sprintf("%s%s?%s", BASE_URL, endpoint, queryString)
 	res, _ := http.Get(url)
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 
 	fmt.Println("url=", url)
 
@@ -210,7 +210,7 @@ func (c *Client) callSigned(method string, endpoint string, query url.Values) []
 	req, _ := http.NewRequest(method, fullURL, &bytes.Buffer{})
 	req.Header = header
 	res, _ := client.Do(req)
-	data, _ := ioutil.ReadAll(res.Body)
+	data, _ := io.ReadAll(res.Body)
 
 	// str1 := string(data[:])
 	// fmt.Println("String =", str1)

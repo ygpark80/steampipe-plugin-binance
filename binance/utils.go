@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/adshao/go-binance/v2"
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 type Clients struct {

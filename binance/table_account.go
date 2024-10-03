@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/turbot/steampipe-plugin-sdk/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
-func tableBinanceAccount(ctx context.Context) *plugin.Table {
+func tableBinanceAccount(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "binance_account",
 		List: &plugin.ListConfig{

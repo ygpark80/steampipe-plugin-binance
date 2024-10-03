@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/hashicorp/hcl/v2"
@@ -17,14 +17,14 @@ type Config struct {
 type ConnectionConfig struct {
 	Name      string `hcl:"name,label"`
 	Plugin    string `hcl:"plugin"`
-	APIKey    string `hcl:"api_key"`
-	SecretKey string `hcl:"api_secret"`
+	ApiKey    string `hcl:"api_key"`
+	ApiSecret string `hcl:"api_secret"`
 }
 
 func GetConfig() ConnectionConfig {
 	homedir, _ := homedir.Dir()
 	filename := filepath.Join(homedir, ".steampipe/config/binance.spc")
-	src, _ := ioutil.ReadFile(filename)
+	src, _ := os.ReadFile(filename)
 	file, _ := hclsyntax.ParseConfig(src, filename, hcl.Pos{Line: 1, Column: 1})
 
 	var config Config
