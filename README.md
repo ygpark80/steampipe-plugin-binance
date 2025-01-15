@@ -61,3 +61,16 @@ Time: 355.912958ms
 ```
 
 That's it.
+
+## Testing
+
+```
+% go test
+```
+
+## Update Go dependencies
+
+```
+% go get -u
+% go mod tidy
+```
